@@ -3,3 +3,10 @@
 secrets.txt
 clips*/
 **/*.mp4
+**/*.mp3
+config.py
+client_secrets.json
+upload.sh
+tmp/
+main.py-oauth2.json
+__pycache__/
