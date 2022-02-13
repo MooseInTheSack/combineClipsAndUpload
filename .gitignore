@@ -6,7 +6,7 @@ clips*/
 **/*.mp3
 config.py
 client_secrets.json
-upload.sh
 tmp/
 main.py-oauth2.json
 __pycache__/
+config.sh
