@@ -22,6 +22,9 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import argparser, run_flow
 
+#for checking video dimensions:
+import cv2
+
 #Clips must be the same dimension or else the output is corrupted
 L =[]
 
@@ -34,7 +37,14 @@ def combineClips():
             if os.path.splitext(file)[1] == '.mp4':
                 filePath = os.path.join(root, file)
                 video = VideoFileClip(filePath)
-                L.append(video)
+                
+                #check to see if the dimensions are correct... (576 x 1024)
+                vidToCheck = cv2.VideoCapture(filePath)
+                height = vidToCheck.get(cv2.CAP_PROP_FRAME_HEIGHT)
+                width = vidToCheck.get(cv2.CAP_PROP_FRAME_WIDTH)
+                
+                if height == config.videoHeight and width == config.videoWidth:
+                    L.append(video)
 
     final_clip = concatenate_videoclips(L)
     final_clip.to_videofile("output.mp4", fps=30, remove_temp=False)
@@ -60,9 +70,8 @@ def downloadFromTikTok(hashTag):
             #output.write(data)
 
 
-#Commenting these out for now just to test the following functionality...
-#downloadFromTikTok(config.hashTag)
-#combineClips()
+downloadFromTikTok(config.hashTag)
+combineClips()
 
 
 # Explicitly tell the underlying HTTP transport library not to retry, since
